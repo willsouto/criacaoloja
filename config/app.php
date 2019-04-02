@@ -157,7 +157,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-        Elasticquent\ElasticquentServiceProvider::class,
 
     ],
 

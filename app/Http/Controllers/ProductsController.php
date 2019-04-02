@@ -40,7 +40,7 @@ class ProductsController extends Controller
 
     public function searchProducts(Request $request){
         $searchText = $request->get('searchText');
-        $products = Product::search($searchText)->get();
+        $products = Product::where('name', 'LIKE',$searchText."%")->get();
         foreach($products as $key => $item){
             if($item['stock'] == 0){
                 $products->forget($key);
@@ -136,8 +136,6 @@ class ProductsController extends Controller
         $delivery_address = $request->input('address');
         $delivery_cep = $request->input('cep');
 
-
-
         //save user
         $user = new User();
         $user->name = $name;
@@ -158,7 +156,6 @@ class ProductsController extends Controller
         $created_order = DB::table("orders")->insert($newOrderArray);
         $order_id = DB::getPdo()->lastInsertId();
 
-
         //save products
         foreach ($cart->items as $key=>$item) {
             $item_id = $key;
@@ -170,17 +167,10 @@ class ProductsController extends Controller
             $created_order_items = DB::table("order_items")->insert($newItemsInCurrentOrder);
         }
 
-
-
-
-
-
         //resetar cart
         Session::forget("cart");
 
         return view('main.success', compact('cart'));
-
-
     }
 
 

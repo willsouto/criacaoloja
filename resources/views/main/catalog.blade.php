@@ -3,19 +3,10 @@
 
 @section('content')
 <style>
-    p.card-title {
-        overflow: hidden;
-        height: 46px;
-    }
+    p.card-title {overflow: hidden;height: 46px;}
     .card a { text-decoration: none;}
-    .card > a img {
-        margin-top: -20px;
-    }
-    .card > a {
-        max-height: 200px;
-        overflow: hidden;
-        margin-top: 15px;
-    }
+    .card > a img {margin-top: -20px;}
+    .card > a {max-height: 200px;overflow: hidden;margin-top: 15px;}
 </style>
     <div class="container">
         @if(isset($cat_name))

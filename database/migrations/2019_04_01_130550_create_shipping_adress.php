@@ -5,11 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateShippingAdress extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('shipping_address', function (Blueprint $table) {
@@ -20,11 +16,7 @@ class CreateShippingAdress extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
         Schema::drop('shipping_address');

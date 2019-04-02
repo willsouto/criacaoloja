@@ -1,12 +1,7 @@
-
-
-
-
 @extends('template.shell')
 
 @section('content')
     <style>
-
         .prod-img { MAX-WIDTH: 120PX;}
         .prods th, .prods .qtd { text-align: center;}
         .prods th, .prods td { vertical-align: middle;}
@@ -17,18 +12,12 @@
 
     <div class="container mt-5">
         <h2>Carrinho</h2>
-
     </div>
 
-    @if(!isset($cart))
-        <br><br><br><br><br>
-        <h2>Seu carrinho está vazio!   :(</h2>
-
+    @if(!$cart)
+        <h2 class="mt-5">Seu carrinho está vazio!   :(</h2>
     @else
-
-
-
-    <div class="my-5" style="background: #efefef">
+    <div class="my-5 checkoutbar" style="background: #efefef">
         <div class="container checkout">
             <div class="row">
                 <div class="col m-3">
@@ -80,27 +69,9 @@
 
 <?php
 echo '<script>
-        $(".removeProd").click(function(e){
-            e.preventDefault();
-
-            var prodId = $(this).closest("tr").attr("id");
-            $("#"+prodId+", ."+prodId).remove();
-            jQuery.ajax({
-                url: "cart/AjaxRemoveFromCart/" + prodId,
-                method: "get",
-                success: function(data){ console.log(data); }
-            });
-
-            e.stopImmediatePropagation();
-            updateTotal();
-            cartCounter();
-        });
-
-
-
-
 //        $(".removeProd").click(function(e){
 //            e.preventDefault();
+//
 //            var prodId = $(this).closest("tr").attr("id");
 //            $("#"+prodId+", ."+prodId).remove();
 //            jQuery.ajax({
@@ -108,6 +79,7 @@ echo '<script>
 //                method: "get",
 //                success: function(data){ console.log(data); }
 //            });
+//
 //            e.stopImmediatePropagation();
 //            updateTotal();
 //            cartCounter();
@@ -115,8 +87,7 @@ echo '<script>
 
 
 
-
-
+        //remove prod from cart
         $(".removeProd").click(function(e){
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -125,9 +96,7 @@ echo '<script>
             ajaxControllerCall("AjaxRemoveFromCart/"+prodId);
         });
 
-
-
-
+        //change quantity
         $(".prod-row select").change(function(e){
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -137,7 +106,7 @@ echo '<script>
 
         });
 
-
+        //ajax call
         function ajaxControllerCall(action){
             jQuery.ajax({
                 url: "cart/"+action,
@@ -148,27 +117,25 @@ echo '<script>
             cartCounter();
         }
 
-
-
-
-
-
-
-
-
-
+        //update total
         function updateTotal(){
             var total = 0;
-            $(".prod-row").each(function(){
-                var val = ($(this).find("th").text()).replace(",", ".");
-                var qtd = $(this).find("select").val();
-                total += val*qtd;
+            if($(".prod-row").length == 0){
+                $(".checkoutbar").hide();
+                $("<h2 class=\'mt-5\'>Seu carrinho está vazio!   :(</h2>").insertBefore(".checkoutbar");
+            }else{
+                $(".prod-row").each(function(){
+                    var val = ($(this).find("th").text()).replace(",", ".");
+                    var qtd = $(this).find("select").val();
+                    total += val*qtd;
 
-            });
-            $(".total-val").text(total.toFixed(2));
+                });
+                $(".total-val").text(total.toFixed(2));
+            }
         }
         updateTotal();
         $(".prod-row select").change(function(){ updateTotal(); });
+
     </script>';
 ?>
 

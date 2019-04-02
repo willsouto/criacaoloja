@@ -15,101 +15,7 @@ $cartProducts = Session::get('cart');
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/9bab8dd6a3.js"></script>
     <style>
-        body {
-            margin-top: 120px;
-        }
-        ul.dropdown-cart{
-            min-width:320px;
-            right: 0;
-            left: auto;
-        }
-        ul.dropdown-cart li .item{
-            display:block;
-            padding:3px 10px;
-            margin: 3px 0;
-        }
-        ul.dropdown-cart li .item:hover{
-            background-color:#f3f3f3;
-        }
-        ul.dropdown-cart li .item:after{
-            visibility: hidden;
-            display: block;
-            font-size: 0;
-            content: " ";
-            clear: both;
-            height: 0;
-        }
-
-        ul.dropdown-cart li .item-left{
-            float:left;
-        }
-        ul.dropdown-cart li .item-left img,
-        ul.dropdown-cart li .item-left span.item-info{
-            float:left;
-        }
-        ul.dropdown-cart li .item-left span.item-info{
-            margin-left:10px;
-        }
-        ul.dropdown-cart li .item-left span.item-info span{
-            display:block;
-        }
-        ul.dropdown-cart li .item-right{
-            float:right;
-        }
-        ul.dropdown-cart li .item-right button{
-            margin-top:14px;
-        }
-        .cart-btn {
-            border: 1px solid #fff;
-            display: block;
-            border-radius: 3px;
-            padding: 5px 12px;
-            color: #fff;
-        }
-        .remove-from-cart {
-            font-size: 17px;
-            margin: 12px 0 0;
-            padding: 7px 6px 10px;
-            line-height: 5px;
-            vertical-align: middle;
-        }
-        .dropdown-cart {
-            padding: 0;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .dropdown-cart li {
-            border: 1px solid #efefef;
-        }
-        .dropdown-cart img {
-            max-width: 50px;width: 20%;
-        }
-        ul.dropdown-cart li .item-left span.item-info {
-            float: left;
-            width: 67%;
-            margin-left: 14px;
-        }
-        ul.dropdown-cart li .item {
-            padding: 10px;
-            background: #f5f5f5;
-        }
-        .cart-btn:hover {
-            color: #ff4600;
-            text-decoration: none;
-        }
-        .dropdown-cart a {
-            color: #414141;
-        }
-        .dropdown-cart .btn {
-            color: #fff;
-        }
-        ul.dropdown-menu.dropdown-cart.show li a:hover > span {
-            background: #dcdcdc;
-        }
-        ul.dropdown-menu.dropdown-cart {
-            max-height: 450px;
-            overflow-y: scroll;
-        }
+        body{margin-top:120px}ul.dropdown-cart{min-width:320px;right:0;left:auto}ul.dropdown-cart li .item{display:block;padding:3px 10px;margin:3px 0}ul.dropdown-cart li .item:hover{background-color:#f3f3f3}ul.dropdown-cart li .item:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}ul.dropdown-cart li .item-left{float:left}ul.dropdown-cart li .item-left img,ul.dropdown-cart li .item-left span.item-info{float:left}ul.dropdown-cart li .item-left span.item-info{margin-left:10px}ul.dropdown-cart li .item-left span.item-info span{display:block}ul.dropdown-cart li .item-right{float:right}ul.dropdown-cart li .item-right button{margin-top:14px}.cart-btn{border:1px solid #fff;display:block;border-radius:3px;padding:5px 12px;color:#fff}.remove-from-cart{font-size:17px;margin:12px 0 0;padding:7px 6px 10px;line-height:5px;vertical-align:middle}.dropdown-cart{padding:0;border-radius:6px;overflow:hidden}.dropdown-cart li{border:1px solid #efefef}.dropdown-cart img{max-width:50px;width:20%}ul.dropdown-cart li .item-left span.item-info{float:left;width:67%;margin-left:14px}ul.dropdown-cart li .item{padding:10px;background:#f5f5f5}.cart-btn:hover{color:#ff4600;text-decoration:none}.dropdown-cart a{color:#414141}.dropdown-cart .btn{color:#fff}ul.dropdown-menu.dropdown-cart.show li a:hover>span{background:#dcdcdc}ul.dropdown-menu.dropdown-cart{max-height:450px;overflow-y:scroll}
     </style>
 </head>
 <body>
@@ -131,6 +37,7 @@ $cartProducts = Session::get('cart');
                     <a class="dropdown-item" href="/criacaoloja/public/categorias/sofas">Sofas</a>
                     <a class="dropdown-item" href="/criacaoloja/public/categorias/racks">Racks</a>
                     <a class="dropdown-item" href="/criacaoloja/public/categorias/guarda-roupas">Guarda-roupas</a>
+                    <a class="dropdown-item" href="/criacaoloja/public/categorias/paineis">Painéis</a>
                 </div>
             </li>
             <li>

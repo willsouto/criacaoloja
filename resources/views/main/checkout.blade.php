@@ -1,33 +1,10 @@
 @extends('template.shell')
 @section('content')
     <style>
-
-
-
-        .card-title {
-            height: 50px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 140px;
-            white-space: nowrap;
-        }
-        .cartProds {
-            display: flex;
-            flex-wrap: initial;
-            overflow-x: scroll;
-            overflow-y: auto;
-            background: #ededee;
-        }
+        .card-title {height: 50px;overflow: hidden;text-overflow: ellipsis;width: 140px;white-space: nowrap;}
+        .cartProds {display: flex;flex-wrap: initial;overflow-x: scroll;overflow-y: auto;background: #ededee;}
     </style>
-
-
-
-
-
     <h2 class="mb-5">Checkout</h2>
-
-
-
 
         <div class="cartProds border rounded">
             @foreach($cart as $key => $item)
@@ -43,8 +20,6 @@
                 </div>
             @endforeach
         </div>
-
-
     <div class="container">
         <div class="my-5" style="background: #efefef">
             <div class="container checkout">

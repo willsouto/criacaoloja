@@ -17,7 +17,11 @@
                 <p class="pdp-sku">Sku: {{$product->id}}</p>
                 <p class="pdp-price-anchor"><s>De {{$product->anchor_price}}</s></p>
                 <p class="pdp-price-final">por {{$product->final_price}}</p>
+                @if($product->stock>0)
                 <a href="{{route('AddToCart', ['id'=>$product->id])}}" class="btn btn-success btn-lg mt-4">Comprar</a>
+                    @else
+                <p class="btn btn-danger btn-lg mt-4">Esgotado!</p>
+                    @endif
             </div>
         </div>
         <div class="row mt-5">
