@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Cart;
@@ -14,14 +15,21 @@ use App\Mail\OrderCreatedEmail;
 class ProductsController extends Controller
 {
 
-
+//PRODUCTS
     public function allProducts(){
-        $products = Product::all();
+        $products = Product::where('stock', '>', 0)->get();
+
         return view("main.catalog",compact("products"));
     }
 
     public function category($cat_name){
         $products = Category::where("name",$cat_name)->first()->products;
+        foreach($products as $key => $item){
+            if($item['stock'] == 0){
+                $products->forget($key);
+            }
+        }
+
         return view("main.catalog",compact("products","cat_name"));
     }
 
@@ -31,17 +39,26 @@ class ProductsController extends Controller
     }
 
     public function searchProducts(Request $request){
-
         $searchText = $request->get('searchText');
-        $products = Product::where('name',"Like",$searchText."%")->paginate(3);
+        $products = Product::search($searchText)->get();
+        foreach($products as $key => $item){
+            if($item['stock'] == 0){
+                $products->forget($key);
+            }
+        }
         return view("main.catalog",compact("products", "searchText"));
     }
 
+
+//CART
     public function cart(){
-        $cart = Session::get('cart')->items;
-        foreach($cart as $key => $item){
-            $stock = Product::find($key)->stock;
-            $cart[$key]['stock'] = $stock;
+        $cart = Session::get('cart');
+        if(isset($cart->items)){
+            $cart =  $cart->items;
+            foreach($cart as $key => $item){
+                $stock = Product::find($key)->stock;
+                $cart[$key]['stock'] = $stock;
+            }
         }
         return view('main.cart',compact("cart"));
     }
@@ -52,29 +69,22 @@ class ProductsController extends Controller
         $product = Product::find($id);
         $cart->addItem($id,$product);
         $request->session()->put('cart', $cart);
-
-        //dump($cart);
+        //dd($cart);
 
         return redirect()->route("cart");
     }
 
-
     public function removeProductFromCart(Request $request,$id){
-
         $cart = $request->session()->get("cart");
         if(array_key_exists($id,$cart->items)){
             unset($cart->items[$id]);
         }
         $prevCart = $request->session()->get("cart");
         $updatedCart = new Cart($prevCart);
-        //$updatedCart->updatePriceAndQunatity();
 
         $request->session()->put("cart",$updatedCart);
         return redirect()->route('cart');
     }
-
-
-
 
 
 //AJAX
@@ -88,15 +98,95 @@ class ProductsController extends Controller
     }
 
     public function AjaxChangeQuantityFromCart(Request $request,$id,$qtt){
-
         $cart = $request->session()->get("cart");
         if(array_key_exists($id,$cart->items)){
             $cart->items[$id]["quantity"] = $qtt;
         }
         $prevCart = $request->session()->get("cart");
-
         return json_encode($prevCart->items);
     }
+
+
+//ORDER
+    public function makeOrder(){
+        $cart = Session::get('cart')->items;
+        $totalPrice = 0;
+        $totalQuantity = 0;
+            foreach($cart as $prod){
+                $prod['price'] = $prod['price'];
+                $totalPrice += $prod['price']*$prod['quantity'];
+                $totalQuantity += $prod['quantity'];
+            }
+        return view('main.checkout',compact("cart","totalPrice", "totalQuantity"));
+    }
+
+
+    public function createNewOrder(Request $request){
+
+        $cart = Session::get('cart');
+
+//dd($cart);
+
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $address = $request->input('address');
+        $cep = $request->input('cep');
+        $totalPrice = $request->input('total_price');
+        $delivery_address = $request->input('address');
+        $delivery_cep = $request->input('cep');
+
+
+
+        //save user
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->address = $address;
+        $user->cep = $cep;
+        $user->save();
+        $user_id = DB::getPdo()->lastInsertId();
+
+        //save shipping
+        $shippingAddress = array("address" => $delivery_address, "cep" => $delivery_cep);
+        $saveAddress = DB::table("shipping_address")->insert($shippingAddress);
+        $shipping_adress_id = DB::getPdo()->lastInsertId();
+
+
+        //save order
+        $newOrderArray = array("user_id" => $user_id,"shipping_address_id" => $shipping_adress_id, "total_price" => $totalPrice, );
+        $created_order = DB::table("orders")->insert($newOrderArray);
+        $order_id = DB::getPdo()->lastInsertId();
+
+
+        //save products
+        foreach ($cart->items as $key=>$item) {
+            $item_id = $key;
+            $item_quantity = $item['quantity'];
+            $item_price = $item['price'];
+            $newItemsInCurrentOrder = array("order_id" => $order_id, "sku" => $item_id, "quantity" => $item_quantity, "price" => $item_price);
+
+            $subtract_item_from_stock =  DB::table('products')->decrement('stock',$item_quantity);
+            $created_order_items = DB::table("order_items")->insert($newItemsInCurrentOrder);
+        }
+
+
+
+
+
+
+        //resetar cart
+        Session::forget("cart");
+
+        return view('main.success', compact('cart'));
+
+
+    }
+
+
+
+
+
 
 
 

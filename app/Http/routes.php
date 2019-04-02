@@ -45,12 +45,12 @@ Route::get('/carrinho/', ["uses"=>"ProductsController@cart", "as"=> "cart"]);
 
 
 
-
 //add to cart
 Route::get('product/addToCart/{id}',['uses'=>'ProductsController@addProductToCart','as'=>'AddToCart']);
 
 //remove from cart
 Route::get('product/removeFromCart/{id}',['uses'=>'ProductsController@removeProductFromCart','as'=>'RemoveFromCart']);
+
 
 //~~~~
 //AJAX
@@ -58,3 +58,11 @@ Route::get('product/removeFromCart/{id}',['uses'=>'ProductsController@removeProd
 Route::get('/cart/AjaxRemoveFromCart/{id}',['uses'=>'ProductsController@ajaxRemoveProductFromCart','as'=>'AjaxRemoveFromCart']);
 
 Route::get('/cart/AjaxChangeQuantityFromCart/{id}/{qtt}',['uses'=>'ProductsController@ajaxChangeQuantityFromCart','as'=>'AjaxChangeQuantityFromCart']);
+
+
+
+//Checkout
+Route::get('/checkout/',['uses'=>'ProductsController@makeOrder','as'=>'makeOrder']);
+
+//Success
+Route::post('/success/',['uses'=>'ProductsController@createNewOrder','as'=>'success']);

@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('address');
             $table->string('cep');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

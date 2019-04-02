@@ -19,15 +19,24 @@
         <h2>Carrinho</h2>
 
     </div>
+
+    @if(!isset($cart))
+        <br><br><br><br><br>
+        <h2>Seu carrinho está vazio!   :(</h2>
+
+    @else
+
+
+
     <div class="my-5" style="background: #efefef">
         <div class="container checkout">
             <div class="row">
                 <div class="col m-3">
                     <p>Total a pagar</p>
-                    <p class="total-val">1111,11</p>
+                    <p class="total-val">00,00</p>
                 </div>
                 <div class="col m-3">
-                    <a href="" class="btn btn-success btn-lg">Ir para pagamento</a>
+                    <a href="{{route('makeOrder')}}" class="btn btn-success btn-lg">Ir para pagamento</a>
                 </div>
             </div>
         </div>
@@ -67,7 +76,7 @@
             </tbody>
         </table>
     </div>
-
+@endif
 
 <?php
 echo '<script>
