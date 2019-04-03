@@ -11,3 +11,4 @@ Melhorias.
 -Validar types(db fields)  
 -Mask form de pedido  
 -Best practice prod 0 stock  
+-Pesquisar KeyValueDB  
