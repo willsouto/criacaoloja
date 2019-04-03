@@ -17,18 +17,13 @@ class ProductsController extends Controller
 
 //PRODUCTS
     public function allProducts(){
-        $products = Product::where('stock', '>', 0)->get();
+        $products = Product::inRandomOrder()->get();;
 
         return view("main.catalog",compact("products"));
     }
 
     public function category($cat_name){
         $products = Category::where("name",$cat_name)->first()->products;
-        foreach($products as $key => $item){
-            if($item['stock'] == 0){
-                $products->forget($key);
-            }
-        }
 
         return view("main.catalog",compact("products","cat_name"));
     }
@@ -41,11 +36,7 @@ class ProductsController extends Controller
     public function searchProducts(Request $request){
         $searchText = $request->get('searchText');
         $products = Product::where('name', 'LIKE',$searchText."%")->get();
-        foreach($products as $key => $item){
-            if($item['stock'] == 0){
-                $products->forget($key);
-            }
-        }
+
         return view("main.catalog",compact("products", "searchText"));
     }
 
@@ -67,10 +58,15 @@ class ProductsController extends Controller
         $prevCart = $request->session()->get('cart');
         $cart = new Cart($prevCart);
         $product = Product::find($id);
-        $cart->addItem($id,$product);
-        $request->session()->put('cart', $cart);
-        //dd($cart);
-
+        if(isset($cart->items[$id]['quantity'])){
+           if($product->stock > $cart->items[$id]['quantity']){
+               $cart->addItem($id,$product);
+               $request->session()->put('cart', $cart);
+           }
+        }else{
+            $cart->addItem($id,$product);
+            $request->session()->put('cart', $cart);
+        }
         return redirect()->route("cart");
     }
 

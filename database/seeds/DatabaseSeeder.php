@@ -104,7 +104,7 @@ class DatabaseSeeder extends Seeder
                 'name'=>'Painel para TV 50 Polegadas Zeus Natural e Off White 184 cm',
                 'stock'=>'40',
                 'anchor_price'=>'729.99',
-                'final_price'=>'5096.99',
+                'final_price'=>'509.99',
                 'image'=>'Mobly-Painel-para-TV-50-Polegadas-Zeus-Natural-e-Off-White-184-cm-8175-518722-1-zoom.jpg',
                 'color_id'=>'1'
             ],

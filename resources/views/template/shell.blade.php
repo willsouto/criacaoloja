@@ -1,5 +1,5 @@
 <?php
-$cartProducts = Session::get('cart');
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -51,8 +51,9 @@ $cartProducts = Session::get('cart');
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle cart-btn" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fa fa-shopping-cart"></span> <span class="cartCounter"></span> <span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-cart" role="menu">
-                    @if(isset($cartProducts->items))
-                        @foreach ($cartProducts->items as $key => $item)
+
+                    @if(isset(Session::get('cart')->items))
+                        @foreach (Session::get('cart')->items as $key => $item)
                         <li class="{{$key}}">
                             <a href="{{route('productPage',['id'=>$key])}}">
                                 <span class="item">

@@ -7,6 +7,7 @@
     .card a { text-decoration: none;}
     .card > a img {margin-top: -20px;}
     .card > a {max-height: 200px;overflow: hidden;margin-top: 15px;}
+    span.esgotado {position: absolute;background: red;top: 12px;color: #fff;padding: 6px 18px;border-radius: 3px;left: 12px;}
 </style>
     <div class="container">
         @if(isset($cat_name))
@@ -27,6 +28,9 @@
                             <span class="card-text ml-2">De {{$product->anchor_price}}</span>
                             <span class="card-text"><strong>Por {{$product->final_price}}</strong></span>
                             <a href="{{route('productPage',['id'=>$product->id])}}" class="btn btn-success mt-3">Comprar</a>
+                            @if($product->stock <= 0)
+                                <span class="esgotado">Esgotado!</span>
+                                @endif
                         </div>
                     </a>
                 </div>
