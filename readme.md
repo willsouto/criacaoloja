@@ -5,7 +5,7 @@ php artisan migrate:refresh --seed
 http://localhost/criacaoloja/public/
 
 
-Melhorias.
+Melhorias.  
 -Implementar ElasticSearch  
 -Validar types(db fields)  
 -Mask form de pedido  
